@@ -78,14 +78,14 @@ app.post("/login", async (request, response) => {
   const dbUser = await db.get(selectUserQuery);
   if (dbUser === undefined) {
     response.status(400);
-    response.send("Invalid User");
+    response.send("Invalid user");
   } else {
     const isPasswordMatched = await bcrypt.compare(password, dbUser.password);
     if (isPasswordMatched === true) {
-      response.send("Login Success!");
+      response.send("Login success!");
     } else {
       response.status(400);
-      response.send("Invalid Password");
+      response.send("Invalid password");
     }
   }
 });
@@ -120,6 +120,7 @@ app.put("/change-password", async (request, response) => {
         set password = '${encryptedPassword}'
         WHERE username = '${username}';`;
         await db.run(updatePasswordQuery);
+        response.status(200);
         response.send("Password updated");
       }
     } else {
